@@ -2,7 +2,7 @@
   ^{:doc "Parser for Stata dictionary and data files."}
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
-            [clojure.core.matrix.dataset :refer [dataset]])
+            [incanter.core :refer [dataset]])
   (:import java.util.zip.GZIPInputStream))
 
 (def dict-line-rx #"^\s+_column\((\d+)\)\s+(\S+)\s+(\S+)\s+%(\d+)(\S)\s+\"([^\"]+)\"")
@@ -56,8 +56,6 @@
   (let [parse-fn (make-row-parser dict)]
     (map parse-fn (line-seq rdr))))
 
-;; This function isn't really needed as we could create a dataset
-;; and use clojure.core.matrix.dataset/row-maps
 (defn as-maps
   "Read Stata data set, return a vector of maps."
   [dict-path data-path]
@@ -68,7 +66,7 @@
             (read-dct-data dict r)))))
 
 (defn as-dataset
-  "Read Stata data set, return a clojure.core.matrix.dataset."
+  "Read Stata data set, return an Incanter dataset."
   [dict-path data-path]
   (let [dict   (read-dict-defn dict-path)
         header (map (comp keyword :name) dict)]
