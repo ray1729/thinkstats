@@ -41,6 +41,10 @@
   [ds]
   (ds/dataset (map clean-fem-preg-row (ds/row-maps ds))))
 
+(defn update-where
+  [ds col pred val]
+  (ds/emap-column ds col (fn [v] (if (pred v) val v))))
+
 (comment
 
   (def ds (dct/as-dataset dict-path data-path))
@@ -61,5 +65,16 @@
   ;; Apply a function to a column, return a new dataset
   (ds/emap-column ds' :agepreg (fn [v] (when v (/ v 100.0))))
 
+  ;; Outcome frequencies
+  (frequencies (m/as-vector (ds/select-columns ds [:outcome])))
+
+  ;; ...as a dataset with rows sorted on outcome
+  (def outcomes
+    (ds/dataset
+     [:outcome :frequency]
+     (sort-by key
+              (frequencies (m/as-vector (ds/select-columns ds [:outcome]))))))
+
+  (clojure.pprint/print-table (ds/column-names outcomes) (ds/row-maps outcomes))
 
   )
