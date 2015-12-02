@@ -34,7 +34,7 @@
     (transform-col ds :agepreg centiyears->years)
     (transform-col ds :birthwgt-lb clean-birth-weight)
     (transform-col ds :birthwgt-oz clean-birth-weight)
-    (add-derived-column :totalwgt-oz [:birthwgt-lb :birthwgt-oz]
+    (add-derived-column :totalwgt-lb [:birthwgt-lb :birthwgt-oz]
                         compute-totalwgt ds)))
 
 (comment
