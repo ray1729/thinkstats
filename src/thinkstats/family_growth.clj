@@ -37,6 +37,19 @@
     (add-derived-column :totalwgt-lb [:birthwgt-lb :birthwgt-oz]
                         compute-totalwgt ds)))
 
+(defn ds-frequencies
+  [col-name ds]
+  (dataset [col-name :frequency] (sort-by key (frequencies ($ col-name ds)))))
+
+;; Build an index of caseid to rows
+(defn build-caseid-ix
+  [ds]
+  (reduce (fn [accum [row-ix caseid]]
+            (clojure.core/update accum caseid (fnil conj []) row-ix))
+          {}
+          (map-indexed vector ($ :caseid ds))))
+
+
 (comment
 
   (def ds (dct/as-dataset dict-path data-path))
@@ -45,7 +58,7 @@
   (dim ds)
 
   ;; Show the names of the columns in the dataset
-  (ds/col-names ds)
+  (col-names ds)
 
   ;; Select the :pregordr column
   ($ :pregordr ds)
@@ -57,11 +70,7 @@
   (frequencies ($ :outcome ds'))
 
   ;; ...as a dataset with rows sorted on outcome
-  (def outcomes
-    (dataset
-     [:outcome :frequency]
-     (sort-by key
-              (frequencies ($ :outcome ds')))))
+  (def outcomes (ds-frequencies :outcome ds'))
 
   (view outcomes)
 
@@ -71,16 +80,7 @@
   (take 10 (sort > (filter identity ($ :birthwgt-oz ds'))))
 
   ;; Look at frequencies of birthwgt-lb
-  (view (dataset [:birthwgt-lb :frequency]
-                 (sort-by key (frequencies (remove nil? ($ :birthwgt-lb ds'))))))
-
-  ;; Build an index of caseid to rows
-  (defn build-caseid-ix
-    [ds]
-    (reduce (fn [accum [row-ix caseid]]
-              (clojure.core/update accum caseid (fnil conj []) row-ix))
-            {}
-            (map-indexed vector ($ :caseid ds))))
+  (view (ds-frequencies :birthwgt-lb ds'))
 
   (def preg-map (build-caseid-ix ds'))
 
@@ -88,6 +88,10 @@
 
   (sel ds' :rows (preg-map "10229") :cols [:outcome])
 
-  ($ (preg-map "10229") :outcome ds')
+  ($ (preg-map "10229") [:outcome :agepreg] ds')
 
+  (with-data ds'
+    ($ (preg-map "10229") [:outcome :agepreg]))
+
+  
   )
