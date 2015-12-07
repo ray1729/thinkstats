@@ -1,8 +1,7 @@
 (ns thinkstats.family-growth
   ^{:doc "Exploring the National Survey of Family Growth data"}
   (:require [thinkstats.dct-parser :as dct]
-            [incanter.core :refer :all])
-  (:refer-clojure :exclude [update]))
+            [incanter.core :as i]))
 
 (def dict-path "data/2002FemPreg.dct")
 (def data-path "data/2002FemPreg.dat.gz")
@@ -31,11 +30,11 @@
 (defn clean-fem-preg
   [ds]
   (as-> ds ds
-    (transform-col ds :agepreg centiyears->years)
-    (transform-col ds :birthwgt-lb clean-birth-weight)
-    (transform-col ds :birthwgt-oz clean-birth-weight)
-    (add-derived-column :totalwgt-lb [:birthwgt-lb :birthwgt-oz]
-                        compute-totalwgt ds)))
+    (i/transform-col ds :agepreg centiyears->years)
+    (i/transform-col ds :birthwgt-lb clean-birth-weight)
+    (i/transform-col ds :birthwgt-oz clean-birth-weight)
+    (i/add-derived-column :totalwgt-lb [:birthwgt-lb :birthwgt-oz]
+                          compute-totalwgt ds)))
 
 (defn ds-frequencies
   [col-name ds]
@@ -55,10 +54,10 @@
   (def ds (dct/as-dataset dict-path data-path))
 
   ;; Show number of rows and columns in the dataset
-  (dim ds)
+  (i/dim ds)
 
   ;; Show the names of the columns in the dataset
-  (col-names ds)
+  (i/col-names ds)
 
   ;; Select the :pregordr column
   ($ :pregordr ds)
