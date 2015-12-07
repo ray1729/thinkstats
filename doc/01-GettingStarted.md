@@ -1,15 +1,17 @@
-## Think Stats - Getting Started
+# Think Stats
+
+## Getting Started
 
 One of our new starters here at Metail was keen to brush up his
 statistics, and it's more than 20 years since I completed an
 introductory course at university so I knew I would benefit from some
-revision. We also have a bunch of statisticians in the office who wnat
-to brush up their Clojure, so I thought it might be fun to organise a
-lunchtime study group to work through Allen Downey's
+revision. We also have a bunch of statisticians in the office who
+would like to brush up their Clojure, so I thought it might be fun to
+organise a lunchtime study group to work through Allen Downey's
 [Think Stats](http://shop.oreilly.com/product/0636920034094.do) and
 attempt the exercises in Clojure.
 
-We'll use Clojure's [Incanter](http://FIXME) library which provides
+We'll use Clojure's [Incanter](http://incanter.org/) library which provides
 utilities for statistical analysis and generating charts. Create a
 Leiningen project for our work:
 
