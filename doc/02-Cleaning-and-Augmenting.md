@@ -67,15 +67,16 @@ We can select a subset of rows or columns from the dataset using `sel`:
     (i/sel ds :cols [:caseid :pregordr] :rows (range 10))
 
 Either of `:rows` or `:cols` may be omitted, but you'll get a lot of
-data back if you ask for all rows. Selecting subsets of the dataset is
+data back if you ask for all rows. Selecting subsets of a dataset is
 such a common thing to do that Incanter provides the function `$` as a
 short-cut (but note the different argument order):
 
     ($ (range 10) [:caseid :pregordr] ds)
 
-If the first argument is omitted, it will return all rows. If you ask
-for just a single column and don't wrap the argument in a vector, you
-get back a sequence of values for that column:
+If the first argument is omitted, it will return all rows. This returns
+a new Incanter dataset, but if you ask for just a single column and
+don't wrap the argument in a vector, you get back a sequence of values
+for that column:
 
     (take 10 ($ :caseid ds))
     ;=> ("1" "1" "2" "2" "2" "6" "6" "6" "7" "7")
