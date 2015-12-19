@@ -217,7 +217,9 @@ Now we can do:
               (dct/as-dataset "ThinkStats2/code/2002FemPreg.dct"
                               "ThinkStats2/code/2002FemPreg.dat.gz")))
 
-We'll explore this dataset further in the next instalment. The Incanter
-helper functions we've implemented can be found in the
+The Incanter helper functions we've implemented can be found in the
 `thinkstats.incanter` namespace, along with a `$!` short-cut for
-`sel-defined`.
+`sel-defined` that was a bit too complex to show in this post.
+
+In the next part in this series, we start to explore the cleaned
+dataset.
