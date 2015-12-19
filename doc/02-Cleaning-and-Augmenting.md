@@ -157,8 +157,8 @@ greater than 15:
 
 We used the `transform-col` function in the implementation of
 `set-invalid-nil` above. We can also use this to perform an arbitrary
-calucaltion on a value. For example, the `:agepreg` column contains the
-age of the participant in centiyears (hundredths of a year).
+calculation on a value. For example, the `:agepreg` column contains the
+age of the participant in centiyears (hundredths of a year):
 
     (i/head (sel-defined ds' :cols :agepreg))
     ;=> (3316 3925 1433 1783 1833 2700 2883 3016 2808 3233)
@@ -193,8 +193,8 @@ function of other columns. For example:
     
 ## Putting it all together
 
-We've build up a new dataset above with a number of
-transformaitons. Let's bring these all together into a single function
+We've built up a new dataset above with a number of
+transformations. Let's bring these all together into a single function
 that will thread the dataset through all these transformations. We can't
 use the usual `->` or `->>` macros because of an inconsistency it the
 argument order in the transformations, but Clojure's `as->` comes to the
@@ -218,5 +218,6 @@ Now we can do:
                               "ThinkStats2/code/2002FemPreg.dat.gz")))
 
 We'll explore this dataset further in the next instalment. The Incanter
-helper funnctions we've implemented can be found in the
-`thinkstats.incanter` namespace.
+helper functions we've implemented can be found in the
+`thinkstats.incanter` namespace, along with a `$!` short-cut for
+`sel-defined`.
