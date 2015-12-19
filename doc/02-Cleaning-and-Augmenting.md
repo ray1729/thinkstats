@@ -43,7 +43,7 @@ namespaces we require:
 
 Incanter defines a number of handy functions whose names begin with `$`;
 we're likely to use these a lot, so I've imported them into our
-namespace. We'll refer to the other Incatter functions we need by
+namespace. We'll refer to the other Incanter functions we need by
 qualifying them with the `i/` or `s/` prefix.
 
 Load the NFSG Pregnancy data into an Incanter dataset:
@@ -124,9 +124,11 @@ returns only the rows where none of the specified columns are `nil`:
 Looking up the definition of `:birthwgt-lb` in the 
 [code book](http://www.icpsr.umich.edu/nsfg6/Controller?displayPage=labelDetails&fileCode=PREG&section=&subSec=8014&srtLabel=611802), we see that values greater than 95 encode special meaning:
 
-|97|Not ascertained|
-|98|Refused|
-|99|Don't know|
+| Value | Meaning       |
+|------:|---------------|
+|97     |Not ascertained|
+|98     |Refused        |
+|99     |Don't know     |
 
 We'd like to remove these values (and the obvious outlier 51) from the
 dataset before processing it. Incanter provides the function
