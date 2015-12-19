@@ -3,8 +3,8 @@
   (:require [thinkstats.dct-parser :as dct]
             [incanter.core :as i :refer [$]]))
 
-(def dict-path "data/2002FemPreg.dct")
-(def data-path "data/2002FemPreg.dat.gz")
+(def dict-path "Thinkstats2/code/2002FemPreg.dct")
+(def data-path "Thinkstats2/code/2002FemPreg.dat.gz")
 
 (def birth-weight-special-value
   {97 "Not ascertained"
@@ -48,6 +48,26 @@
           {}
           (map-indexed vector ($ :caseid ds))))
 
+(def $not-nil {:$fn (complement nil?)})
+
+(defn ensure-collection
+  "Wrap `x` in a vector if it is not already a collection."
+  [x]
+  (if (coll? x) x (vector x)))
+
+(defn sel-defined
+  "Variant of Incater's `sel` function that returns only the rows
+   where none of the selected columns are nil."
+  [ds & {:keys [rows cols]}]
+  (let [rows (or rows :all)
+        cols (or cols (i/col-names ds))]
+    (i/sel ($where (zipmap (ensure-collection cols) (repeat $not-nil))
+                   ds)
+           :rows rows :cols cols)))
+
+(defn set-invalid-nil
+  [ds col valid?]
+  (i/transform-col ds col (fn [v] (when (and v (valid? v)) v))))
 
 (comment
 
@@ -92,6 +112,11 @@
   (with-data ds'
     ($ (preg-map "10229") [:outcome :agepreg]))
 
+  (def ds'
+    (-> ds
+        (set-invalid-nil :birthwgt-lb (complement #{51 97 98 99}))
+        (set-invalid-nil :birthwgt-oz (fn [v] (<= 0 v 15)))))
+
 
   ;; Chapter 1 exercises
 
@@ -132,7 +157,7 @@
   (def live (i/$where {:outcome 1} ds'))
   (i/dim live)
 
-  
+
   (i/$where (i/$fn [totalwgt-kg] (not (nil? totalwgt-kg))) ds')
 
   (defn summarize-col
