@@ -1,0 +1,3 @@
+[submodule "ThinkStats2"]
+	path = ThinkStats2
+	url = git@github.com:AllenDowney/ThinkStats2.git
