@@ -26,8 +26,8 @@ you can simply run:
     lein gorilla
 
 This will print out a URL for you to open in your browser. You can then
-start running the examples and seeing the output in your browser. Read more about
-Gorilla REPL here: http://gorilla-repl.org/ .
+start running the examples and seeing the output in your browser. Read
+more about Gorilla REPL here: <http://gorilla-repl.org/>.
 
 ## To Business...
 
