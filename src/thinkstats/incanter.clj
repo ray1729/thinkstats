@@ -59,4 +59,4 @@
   "Return a new dataset where the values of `col` that do not satisfy
   the predicate `valid?` are set to `nil`."
   [ds col valid?]
-  (i/transform-col ds col (fn [v] (when (and v (valid? v)) v))))
+  (i/transform-col ds col (fn [v] (when (and (not (nil? v)) (valid? v)) v))))
