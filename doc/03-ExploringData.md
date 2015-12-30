@@ -138,6 +138,8 @@ dataset (argument to `$!` is a vector).
 We now know enough to have a first attempt at answering this question.
 The columns we'll use are:
 
+| Column      | Description                              |
+|-------------|------------------------------------------|
 | `:outcome`  | Pregnancy outcome (1 == live birth)      |
 | `:birthord` | Birth order                              |
 | `:prglngth` | Duration of completed pregnancy in weeks |
