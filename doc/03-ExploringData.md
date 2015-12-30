@@ -69,6 +69,17 @@ You'll find this in our `thinkstats.incanter` namespace. With this in hand:
 
     (ds-frequencies :outcome ds)
 
+
+| `:outcome` | `:frequency` |
+|-----------:|-------------:|
+| 1 | 9148 |
+| 2 | 1862 |
+| 3 | 120 |
+| 4 | 1921 |
+| 5 | 190 |
+| 6 | 352 |
+
+
 Compare this with the table in the
 [code book](http://www.icpsr.umich.edu/icpsradmin/nsfg/variable/613585?studyNumber=9998&vg=7180).
 
