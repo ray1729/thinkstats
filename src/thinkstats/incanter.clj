@@ -1,6 +1,6 @@
 (ns thinkstats.incanter
   ^{:doc "Helper functions for working with Incanter"}
-  (:require [incanter.core :as i]))
+  (:require [incanter.core :as i :refer [$]]))
 
 (def $not-nil
   "Predicate function for use in `$where`."
@@ -60,3 +60,16 @@
   the predicate `valid?` are set to `nil`."
   [ds col valid?]
   (i/transform-col ds col (fn [v] (when (and (not (nil? v)) (valid? v)) v))))
+
+(defn ds-frequencies
+  "Create a datasat of frequencies of values for the given `col-name`."
+  [col-name ds]
+  (i/dataset [col-name :frequency] (sort-by key (frequencies ($ col-name ds)))))
+
+(defn build-column-ix
+  "Build an index from `col-name` value to row number."
+  [col-name ds]
+  (reduce (fn [accum [row-ix v]]
+            (update accum v (fnil conj []) row-ix))
+          {}
+          (map-indexed vector ($ col-name ds))))
