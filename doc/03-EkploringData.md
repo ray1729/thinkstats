@@ -100,6 +100,16 @@ Recall that we can also select a subset of columns at the same time:
 
     (i/sel ds :rows (caseid-ix "10229") :cols [:pregordr :agepreg :outcome])
 
+| pregordr | agepreg | outcome |
+|---------:|--------:|--------:|
+|1         | 19.58   | 4       |
+|2         | 21.75   | 4       |
+|3         | 23.83   | 4       |
+|4         | 25.5    | 4       |
+|5         | 29.08   | 4       |
+|6         | 32.16   | 4       |
+|7         | 33.16   | 1       |
+
 Recall also the meaning of `:outcome`; a value of `4` indicates a
 miscarriage and `1` a live birth. So this respondent suffered 6
 miscarriages between the ages of 19 and 32, finally seeing a live
