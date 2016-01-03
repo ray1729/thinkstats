@@ -4,8 +4,8 @@
             [thinkstats.incanter :as ie :refer [$!]]
             [incanter.core :as i :refer [$]]))
 
-(def dict-path "Thinkstats2/code/2002FemPreg.dct")
-(def data-path "Thinkstats2/code/2002FemPreg.dat.gz")
+(def dict-path "ThinkStats2/code/2002FemPreg.dct")
+(def data-path "ThinkStats2/code/2002FemPreg.dat.gz")
 
 (defn compute-totalwgt-lb
   [lb oz]
