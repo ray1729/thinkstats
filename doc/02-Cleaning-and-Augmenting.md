@@ -10,7 +10,7 @@ going to use that to start exploring the National Survey of Family
 Growth data with [Incanter](http://incanter.org/), a Clojure library 
 for statistical computing and graphics.
 
-If you'd like to follow along, start by cloning my thinkstats repository from Github:
+If you'd like to follow along, start by cloning our thinkstats repository from Github:
 
     git clone git@github.com:ray1729/thinkstats.git --recursive
     

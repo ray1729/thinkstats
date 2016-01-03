@@ -9,7 +9,8 @@ knowledge to explore the National Survey for Family Growth (NFSG) data
 and answer the question _do first babies arrive late?_ This takes us
 to the end of chapter 1 of the book.
 
-If you'd like to follow along, start by cloning my thinkstats repository from Github:
+If you'd like to follow along, start by cloning our thinkstats
+repository from Github:
 
     git clone git@github.com:ray1729/thinkstats.git --recursive
 
@@ -33,7 +34,7 @@ to need this time:
                   :refer [$ $map $where $rollup $order $fn $group-by $join]]
                 [incanter.stats :as s]
                 [thinkstats.gorilla]
-                [thinkstats.incanter :as ie :refer [$!]]
+                [thinkstats.incanter :as ie :refer [$! $not-nil]]
                 [thinkstats.family-growth :as f]))
 
 (We've also included `thinkstats.gorilla`, which just includes some
@@ -162,6 +163,101 @@ Compute the mean pregnancy length for the first birth:
 The diffenence between these two values in just 0.08 weeks, so I'd
 say that these data do not indicate that first babies arrive late.
 
-I hope that, as we get further into the book, we'll learn how to
-calculate error bounds for computed values, and how to decide when we
-have a statistically significant result.
+Here we've computed mean pregnancy length for first baby and others; if
+we want a table of mean pregnancy length by birth order, we can use
+`$rollup` again:
+
+    ($rollup :mean :prglngth :birthord (i/$where {:outcome 1 :prglngth $not-nil} ds))
+
+| :birthord |  :prglngth |
+|----------:|-----------:|
+|         3 | 47501/1234 |
+|         4 |  16187/421 |
+|         5 |    2419/63 |
+|        10 |         36 |
+|         9 |       75/2 |
+|         7 |     763/20 |
+|         1 | 56782/1471 |
+|         8 |      263/7 |
+|         6 |    1903/50 |
+|         2 | 55420/1437 |
+
+The mean has been returned as a rational, but we can use `transform-col`
+to convert it to a floating-point number:
+
+    (as-> ds x
+          ($where {:outcome 1 :prglngth $not-nil} x)
+          ($rollup :mean :prglngth :birthord x)
+          (i/transform-col x :prglngth float))
+
+| :birthord | :prglngth |
+|----------:|:----------|
+|         3 |  38.49352 |
+|         4 | 38.448933 |
+|         5 | 38.396824 |
+|        10 |      36.0 |
+|         9 |      37.5 |
+|         7 |     38.15 |
+|         1 | 38.600952 |
+|         8 |  37.57143 |
+|         6 |     38.06 |
+|         2 |  38.56646 |
+        
+Finally, we can use `$order` to sort this dataset on birth order:
+
+    (as-> ds x
+          ($where {:outcome 1 :prglngth $not-nil} x)
+          ($rollup :mean :prglngth :birthord x)
+          (i/transform-col x :prglngth float)
+          ($order :birthord :asc x))
+
+| :birthord | :prglngth |
+|----------:|:----------|
+|         1 | 38.600952 |
+|         2 |  38.56646 |
+|         3 |  38.49352 |
+|         4 | 38.448933 |
+|         5 | 38.396824 |
+|         6 |     38.06 |
+|         7 |     38.15 |
+|         8 |  37.57143 |
+|         9 |      37.5 |
+|        10 |      36.0 |
+
+The Incanter functions `$where`, `$rollup`, `$order`, etc. all take a
+dataset to act on as their last argument. If this argument is omitted,
+they use the dynamic `$data` variable that is usually bound using
+`with-data`. So the following two expressions are equivalent:
+
+    ($where {:outcome 1 :prglngth $not-nil} ds)
+    
+    (with-data ds
+      ($where {:outcome 1 :prglngth $not-nil}))
+      
+It's a bit annoying that we have to use `as->` when we add
+`transform-col` to the mix, as this function takes the dataset as its
+first argument. Let's add the following to our `thinkstats.incatner`
+namespace:
+
+    (defn $transform
+      "Like Incanter's `transform-col`, but takes the dataset as an optional
+       last argument and, when not specified, uses the dynamically-bound
+       `$data`."
+      [col f & args]
+      (let [[ds args] (if (or (i/matrix? (last args)) (i/dataset? (last args)))
+                        [(last args) (butlast args)]
+                        [i/$data args])]
+        (apply i/transform-col ds col f args)))
+
+Now we can use the `->>` threading macro:
+
+    (->> ($where {:outcome 1 :prglngth $not-nil} ds)
+         ($rollup :mean :prglngth :birthord)
+         ($transform :prglngth float)
+         ($order :birthord :asc))
+
+We have now met most of the core Incanter functions for manipulating
+datasets, and a few of the statistics functions.  I hope that, as we get
+further into the book, we'll learn how to calculate error bounds for
+computed values, and how to decide when we have a statistically
+significant result.

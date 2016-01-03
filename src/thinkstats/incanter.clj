@@ -68,3 +68,13 @@
             (update accum v (fnil conj []) row-ix))
           {}
           (map-indexed vector ($ col-name ds))))
+
+(defn $transform
+  "Like Incanter's `transform-col`, but takes the dataset as an optional
+   last argument and, when not specified, uses the dynamically-bound
+   `$data`."
+  [col f & args]
+  (let [[ds args] (if (or (i/matrix? (last args)) (i/dataset? (last args)))
+                    [(last args) (butlast args)]
+                    [i/$data args])]
+    (apply i/transform-col ds col f args)))
