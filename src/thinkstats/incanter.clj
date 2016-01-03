@@ -61,11 +61,6 @@
   [ds col valid?]
   (i/transform-col ds col (fn [v] (when (and (not (nil? v)) (valid? v)) v))))
 
-(defn ds-frequencies
-  "Create a datasat of frequencies of values for the given `col-name`."
-  [col-name ds]
-  (i/dataset [col-name :frequency] (sort-by key (frequencies ($ col-name ds)))))
-
 (defn build-column-ix
   "Build an index from `col-name` value to row number."
   [col-name ds]

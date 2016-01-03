@@ -58,27 +58,21 @@ to frequency:
     (frequencies ($ :outcome ds))
     ;=> {1 9148, 2 1862, 4 1921, 5 190, 3 120, 6 352}
 
-We implemented another helper function to do this and return a new
-Incanter dataset with the frequencies:
+Incanter's `$rollup` function can be used to compute a summary function
+over a column or set of columns, and has built-in support for `:min`,
+`:max`, `:mean`, `:sum`, and `:count`. Rolling up `:outcome` by `:count` will
+compute the freqency for each outcome and return a new dataset:
 
-    (defn ds-frequencies
-      [col-name ds]
-      (i/dataset [col-name :frequency] (sort-by key (frequencies ($ col-name ds)))))
+    (i/$rollup :count :total :outcome ds)
 
-You'll find this in our `thinkstats.incanter` namespace. With this in hand:
-
-    (ds-frequencies :outcome ds)
-
-
-| `:outcome` | `:frequency` |
-|-----------:|-------------:|
-| 1 | 9148 |
-| 2 | 1862 |
-| 3 | 120 |
-| 4 | 1921 |
-| 5 | 190 |
-| 6 | 352 |
-
+| :outcome | :total |
+|---------:|-------:|
+|        1 |   9148 |
+|        2 |   1862 |
+|        4 |   1921 |
+|        5 |    190 |
+|        3 |    120 |
+|        6 |    352 |    
 
 Compare this with the table in the
 [code book](http://www.icpsr.umich.edu/icpsradmin/nsfg/variable/613585?studyNumber=9998&vg=7180).
