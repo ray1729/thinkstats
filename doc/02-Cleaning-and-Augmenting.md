@@ -197,7 +197,7 @@ function of other columns. For example:
 We've built up a new dataset above with a number of
 transformations. Let's bring these all together into a single function
 that will thread the dataset through all these transformations. We can't
-use the usual `->` or `->>` macros because of an inconsistency it the
+use the usual `->` or `->>` macros because of an inconsistency in the
 argument order in the transformations, but Clojure's `as->` comes to the
 rescue here.
 
