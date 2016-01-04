@@ -48,7 +48,7 @@ the data set with `clean-and-augment-fem-preg`:
 ## Validating Data
 
 There are a couple of things covered in chapter 1 of the book that we
-haven't done yet: looking af frequencies of values in particular
+haven't done yet: looking at frequencies of values in particular
 columns of the NFSG data and validating against the code book, and
 building a function to index rows by `:caseid`.
 
@@ -236,7 +236,7 @@ they use the dynamic `$data` variable that is usually bound using
       
 It's a bit annoying that we have to use `as->` when we add
 `transform-col` to the mix, as this function takes the dataset as its
-first argument. Let's add the following to our `thinkstats.incatner`
+first argument. Let's add the following to our `thinkstats.incantner`
 namespace:
 
     (defn $transform
