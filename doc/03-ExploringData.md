@@ -236,7 +236,7 @@ they use the dynamic `$data` variable that is usually bound using
       
 It's a bit annoying that we have to use `as->` when we add
 `transform-col` to the mix, as this function takes the dataset as its
-first argument. Let's add the following to our `thinkstats.incantner`
+first argument. Let's add the following to our `thinkstats.incanter`
 namespace:
 
     (defn $transform
