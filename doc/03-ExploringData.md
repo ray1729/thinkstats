@@ -12,7 +12,7 @@ to the end of chapter 1 of the book.
 If you'd like to follow along, start by cloning our thinkstats
 repository from Github:
 
-    git clone git@github.com:ray1729/thinkstats.git --recursive
+    git clone https://github.com/ray1729/thinkstats.git --recursive
 
 Change into the project directory and fire up Gorilla REPL:
 
