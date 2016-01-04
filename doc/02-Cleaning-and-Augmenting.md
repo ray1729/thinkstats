@@ -12,7 +12,7 @@ for statistical computing and graphics.
 
 If you'd like to follow along, start by cloning our thinkstats repository from Github:
 
-    git clone git@github.com:ray1729/thinkstats.git --recursive
+    git clone https://github.com/ray1729/thinkstats.git --recursive
     
 I've made two innovations since writing the first post in this series. I
 realised that I could include Allen's repository as a git submodule,
